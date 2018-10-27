@@ -22,7 +22,7 @@ Donkey2 is the standard car that most people build first. The parts cost about $
 
 ### Hello World.
 
-Donkeycar is designed to make adding new parts to your car easy. Here's and
+Donkeycar is designed to make adding new parts to your car easy. Here's an
 example car application that captures images from the camera and saves them.
 
 ```python
