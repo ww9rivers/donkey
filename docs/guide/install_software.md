@@ -67,9 +67,7 @@ sudo vi /media/userID/UUID/etc/hostname
 sudo vi /media/userID/UUID/etc/hosts
 ```
 
-Now you're SD card is ready. Eject it from your computer, put it in the Pi
-and plug in the Pi.
-
+Now your SD card is ready. Eject it from your computer, put it in the Pi, and plug in the Pi.
 
 ### Connecting to the Pi
 
@@ -162,14 +160,25 @@ Install dependencies, setup virtualenv
 sudo apt-get install virtualenv build-essential python3-dev gfortran libhdf5-dev
 virtualenv env -p python3
 source env/bin/activate
-pip install tensorflow==1.8.0
 ```
 
 * Install donkey source and create your local working dir:
 ```bash
-git clone https://github.com/wroscoe/donkey donkeycar
-pip install -e .
+git clone https://github.com/autorope/donkeycar
 ```
+* Install the donkeycar package in pip
+
+If you have an NVIDIA GPU - Install donkeycar and use *tensorflow-gpu* dependency:
+```bash
+pip install donkeycar[tf_gpu]
+```
+
+Otherwise, install donkeycar and use *tensorflow* dependency:
+```bash
+pip install donkeycar[tf]
+```
+
+See [https://github.com/tensorflow/tensorflow/issues/7166](https://github.com/tensorflow/tensorflow/issues/7166) for more information.
 
 [Next: Calibrate your car.](./calibrate.md)
 
@@ -185,6 +194,8 @@ pip install -e .
 
 * Change to a dir you would like to use as the head of your projects.
 
+* Right click can be used to paste into prompt.
+
 ```
 mkdir projects
 cd projects
@@ -193,14 +204,20 @@ cd projects
 * Get the latest donkey from Github.
 
 ```
-git clone https://github.com/wroscoe/donkey
-cd donkey
+git clone https://github.com/autorope/donkeycar
+cd donkeycar
+```
+
+* Navigate to git master branch
+
+```
+git checkout master
 ```
 
 * Create the Python Anaconda environment
 
 ```
-conda env create -f envs\windows.yml
+conda env create -f install\envs\windows.yml
 activate donkey
 ```
 
@@ -245,8 +262,8 @@ cd projects
 * Get the latest donkey from Github.
 
 ```
-git clone https://github.com/wroscoe/donkey
-cd donkey
+git clone https://github.com/autorope/donkeycar
+cd donkeycar
 ```
 
 * Create the Python anaconda environment
@@ -259,7 +276,7 @@ source activate donkey
 * Install Tensorflow
 
 ```
-pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.3.0-py3-none-any.whl
+pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.10.1-py3-none-any.whl
 ```
 
 
@@ -304,7 +321,7 @@ When you've created your new instance, open it up and create a new [Jupyter Note
 
 * In the first cell, type:
 ```python
-!git clone https://github.com/wroscoe/donkey ~/SageMaker/donkey
+!git clone https://github.com/autorope/donkeycar ~/SageMaker/donkey
 ```
 
 * Close the Jupyter Notebook (not the instance!). You can delete it if you want.
@@ -336,29 +353,3 @@ To get back to the stock donkey install:
 pip uninstall donkeycar
 pip install donkeycar
 ```
-
-### Install donkeycar with TensorFlow dependencies
-
-Donkey requires the TensorFlow library to work. It comes in 2 flavors; *tensorflow* (CPU) and *tensorflow-gpu* (GPU).
-
-This poses a problem, because if donkey specifies either of them as a dependency, `pip` will uninstall any pre-installed version of the **other** flavor of the library. And since they are mutually exclusive, both cannot be listed as dependencies.
-
-To solve this, donkey does not specify *tensorflow* nor *tensorflow-gpu* as dependencies. Instead, they are listed as `extras_require`, which means you have to explicitly tell `pip` what flavor you want to use. If no flavor is specified (default), it is assumed one version of *TensorFlow* is already installed.
-
-Install donkeycar assuming a compatible tensorflow library (either *tensorflow* or *tensorflow-gpu*) already installed:
-```bash
-# Assuming CWD is the cloned donkey git
-pip install donkeycar
-```
-
-Install donkeycar and use *tensorflow* dependency:
-```bash
-pip install donkeycar[tf]
-```
-
-Install donkeycar and use *tensorflow-gpu* dependency:
-```bash
-pip install donkeycar[tf_gpu]
-```
-
-See [https://github.com/tensorflow/tensorflow/issues/7166](https://github.com/tensorflow/tensorflow/issues/7166) for more information.
